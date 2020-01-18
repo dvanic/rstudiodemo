@@ -423,6 +423,27 @@ filter(gapminder, year &lt; 1960 &amp; country %in% mycharactervector)</code></p
 <p>We will use the <code>%in%</code> command and character vectors more in later sessions.</p>
 <div id="challenge-1" class="section level3">
 <h3>Challenge 1</h3>
+<p>Which of these commands would return records for which the life expectancy was between 50 and 59 in 1992?</p>
+<ul>
+<li>A: <code>filter(gapminder, lifeExp &gt;= 50 &amp; lifeExp &lt;= 60 &amp; year == 1992)</code></li>
+<li>B: <code>filter(gapminder, lifeExp &gt;= 50 | lifeExp &lt; 60 | year == 1992)</code></li>
+<li>C: <code>filter(gapminder, lifeExp &gt;= 50 &amp; lifeExp &lt;= 59 &amp; year == 1992)</code></li>
+<li>D: <code>filter(gapminder, lifeExp &gt;= 50 | (lifeExp &lt; 60 &amp; year == 1992))</code></li>
+<li>E: <code>filter(gapminder, (lifeExp &gt;= 50 &amp; lifeExp &lt;= 60) &amp; year == 1992)</code></li>
+</ul>
+<pre class="r"><code># Correct answer: C
+filter(gapminder, lifeExp &gt;= 50 &amp; lifeExp &lt;= 59 &amp; year == 1992)
+# A: also includes countries with a LE of 60 years. Testing &quot;&lt;=&quot; handling
+filter(gapminder, lifeExp &gt;= 50 &amp; lifeExp &lt;= 60 &amp; year == 1992)
+# B: testing for an understanding of how &quot;or&quot; works - returns entire dataset.
+filter(gapminder, lifeExp &gt;= 50 | lifeExp &lt; 60 | year == 1992)
+# D: testing for an understanding of how brackets work 
+filter(gapminder, lifeExp &gt;= 50 | (lifeExp &lt; 60 &amp; year == 1992))
+# E: testing for an understanding of how brackets and edge cases work
+filter(gapminder, (lifeExp &gt;= 50 &amp; lifeExp &lt;= 60) &amp; year == 1992)</code></pre>
+</div>
+<div id="challenge-2" class="section level3">
+<h3>Challenge 2</h3>
 <p>Use the <code>filter()</code> command to extract records from the Americas from the 1970s.</p>
 <pre class="r"><code># We can combine more than two statements in our filtering criteria:
 filter(gapminder, year &gt;= 1970 &amp; year &lt; 1980 &amp; continent == &quot;Americas&quot;)
@@ -433,8 +454,8 @@ filter(gapminder, between(year, 1970,1979) &amp; continent == &quot;Americas&quo
 # Watch out, as between included both the left and right hand side in the filtering criteria,
 # So records from both 1970 and 1979 are returned with the above statement!</code></pre>
 </div>
-<div id="challenge-2" class="section level3">
-<h3>Challenge 2</h3>
+<div id="challenge-3" class="section level3">
+<h3>Challenge 3</h3>
 <p>Which of these (more than one is correct) would return records from Argentina and Australia from the 1980s? Which one of the correct solutions do you think is the most readable?</p>
 <ul>
 <li>A: <code>filter(gapminder, (year &lt; 1989 &amp; year &gt; 1980) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))</code></li>
@@ -536,6 +557,23 @@ gapminder %&gt;%
 ##  9 Djibouti              Africa     1962    39.7 89898     3021.
 ## 10 Sao Tome and Principe Africa     1982    60.4 98593     1890.
 ## # … with 1,694 more rows</code></pre>
+<p>We can arrange by multiple columns sequentially by listing them in the order we’d like to arrange. For example, to sort by country then population:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  arrange(country, pop)</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1982    39.9 12881816      978.
+##  6 Afghanistan Asia       1972    36.1 13079460      740.
+##  7 Afghanistan Asia       1987    40.8 13867957      852.
+##  8 Afghanistan Asia       1977    38.4 14880372      786.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
 <p>By default, <code>arrange()</code> arranges things from lowest to highest, but we can use <code>desc()</code> to arrange in descending order:</p>
 <pre class="r fold-show"><code>gapminder %&gt;%
   arrange(desc(pop))</code></pre>
@@ -566,8 +604,8 @@ gapminder %&gt;%
 ## 3 New Zealand Oceania    1952    69.4 1994794    10557.
 ## 4 Australia   Oceania    1952    69.1 8691212    10040.</code></pre>
 <p>We can see that the life expectancy in New Zealand was higher than in Australia in 1952, but that in 1957 the opposite became true!</p>
-<div id="challenge-3" class="section level3">
-<h3>Challenge 3</h3>
+<div id="challenge-4" class="section level3">
+<h3>Challenge 4</h3>
 <p>Which countries had the highest and second-highest life expectancy in Europe in 1952? Were they still the top two countries in 2007?</p>
 <pre class="r"><code># Norway and Iceland had the highest life expectancy in 1952, with Norway having .18 years (approx 2 months) higher 
 # Life expectancy than Iceland
@@ -618,8 +656,8 @@ gapminder %&gt;%
 ## 3 Australia    1957    10950.
 ## 4 New Zealand  1957    12247.</code></pre>
 <p>We can see that in the 1950s, both Australia and New Zealand’s GDP grew between 1952 and 1957, and Australia’s GDP was less than that of New Zealand.</p>
-<div id="challenge-4" class="section level3">
-<h3>Challenge 4</h3>
+<div id="challenge-5" class="section level3">
+<h3>Challenge 5</h3>
 <ul>
 <li>Which countries with a population over 1 million people had the highest GDP in Asia in 1952?</li>
 <li>How many of them were in the top 5 in 2007?</li>
