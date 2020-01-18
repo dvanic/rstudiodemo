@@ -3,19 +3,29 @@ title: 'Concept map'
 ---
 
 
-Below is a concept map of the overall content of this lesson. 
+Below is a map of the overall content of this lesson. 
 
-I have fleshed out the concepts relating to the:
+I have fleshed out the 
 
 - `filter()` - green
 - `%>%` - purple
 - `arrange()` - cyan
 
-Portions of the lesson, although I expect that in 15 minutes we would work through the filtering (green) and - possibly but highly unlikely - the pipe (purple) component.  I haven't fleshed out the `select()` section at this point, as whether to introduce things like `starts_with()` here or in another section needs to be taken in the context of the entire training plan. 
+Portions of the lesson, although I expect that in 15 minutes we would work through the filtering (green) component.  I haven't fleshed out the `select()` section at this point, as whether to introduce things like `starts_with()` here or in another section needs to be taken in the context of the entire training plan. 
+
+
 
 ![](conceptmap.jpg)
 
-Ideally, I'd hope my learners would add the ideas shown in red to their global mental model of the tidyverse and tidy data/data wrangling in R.
+***
+For the filtering section, a canonical concept map looks something like this:
+
+
+![](canonicalconceptmapfiltering.jpg)
+
+***
+
+Ideally, I'd hope my learners would add the ideas shown in red to their global mental model (already existing things shown in black) of the tidyverse and tidy data/data wrangling in R.
 
 ![](conceptmap2.jpg)
 

@@ -1,8 +1,0 @@
----
-title: "RStudio Instructor Certification"
----
-
-This is the github repository for my RStudio instructor certification checkout. 
-
-```{r child="index.Rmd"} 
-```
