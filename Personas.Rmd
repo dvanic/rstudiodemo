@@ -1,0 +1,23 @@
+---
+title: "Learner Personas"
+---
+
+This page provides a non-exhaustive outline of learner personas I hope to work with during the training. This is tailored to who I expect to have interest in working with me as an RStudio Certified Instructor (as opposed to my other, more academia-focused role). These are an amalgamation of real people I've met at meetups, conferences and other "in-the-city" contexts.
+
+## Jacinta the data engineer
+Jacinta works as a Data Engineer at MenuZoom. While her job title sounds great, she feels she's the data extractor, running hundreds of SQL queries a day to pull out interesting subsets of data for the Data Scientists at MenuZoom. This team seem to get to do all the fun stuff of building models and really contributing to the business by improving the bottom line using data. She is interested in attending this training to learn more about the analytics side of things. She hopes to be able to use her newly acquired R skills to execute and showcase on the web a couple of "hobby" analytics projects. These would hopefully put her in a position to be a strong internal candidate for the Data Science team the next time a role in it pops up. 
+
+## Kasper the actuary
+Kasper works for one of Australia's largest insurance companies in risk management. His boss has been engaging with the Institute of Analytics Professionals in Australia recently, and it seems like this data science thing is all the rage. Kasper's boss has suggested Kasper attend this training to see what it's all about, and whether any of it could be useful to be combined with their existing SAS modelling pipelines. In addition to SAS, Kasper is very comfortable and familiar with VBA scriping in Excel. Kasper has two small children at home, so it's important that the workshop teach him enough to get started doing something or - at least - enough to share back with the boss without having to spend any outside-of-work time on this.
+
+## Chao the accountant
+Chao is a junior accountant in one of Australia's major banks, and spends his day doing magic with VBA. He is interested in this whole data science thing as he's seen several colleagues upskill in this area, and move away from using VBA for everything to doing some things in R. He's tried to teach it to himself, but got bogged down trying to understand why there were 10 different ways to subset things, and every task seemed to require installing five different libraries. Chao hopes that he'll be able to better automate at least some of his workflow using R. English is his second language, and while he's been in Australia for almost a decade, he can still struggle with very fast speakers or very thick accents.
+
+
+***
+#### Please note that in real life:
+
+- I always administer a pre-workshop survey, where I ask tailored questions about what students want to learn, including "Why are you interested in attending the training?", one of "What are 3 key things things you are hoping to learn in this training?" OR "What are 3 key things things you would like to be able to do after attending this session?", as well as a battery of questions about previous knowledge and experience with R, python, Excel, SQL, programming "in general" and past education.
+- If organising a training by invitation, I try work with whoever's inviting me to understand what their user needs are and how my training can fit in with what they/their users need and/or already have available to them.
+
+I then use this information to design the training specifically for my cohort.

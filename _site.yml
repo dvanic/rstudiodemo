@@ -1,0 +1,19 @@
+name: "RStudio Education Certification Demo Lesson"
+output_dir: "docs"
+navbar:  
+  title: "Demo"
+  left:  # you can also use 'right'
+    - text: "Home"
+      href: index.html  # don't link to the .Rmd file
+    - text: "Lesson"
+      href: Lesson.html
+    - text: "Personas"
+      href: Personas.html
+    - text: "ConceptMap"
+      href: ConceptMap.html
+    - text: "CodeOfConduct"
+      href: CoC.html
+output:
+  html_document:
+    theme: paper
+    code_folding: hide

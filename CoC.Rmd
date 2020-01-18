@@ -1,0 +1,5 @@
+---
+title: 'Code of Conduct'
+---
+
+I always start my training with a Code of Conduct. This is usually tailored to where I'm teaching, as workplaces (universities, research agencies such as the CSIRO, government bodies) usually have their own bullying, harassment and other policies, which specifically affect how unacceptable behaviour is reported and handled. Practically, I usually tie in the Carpentries ["general" Code of Conduct](https://docs.carpentries.org/topic_folders/policies/code-of-conduct.html) with workplace-specific details. As an example of this, [here](https://sydney-informatics-hub.github.io/codeofconduct/) is the Code of Conduct I prepared for Sydney Informatics Hub workshops at the University of Sydney.

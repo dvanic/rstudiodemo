@@ -1,0 +1,10 @@
+---
+title: "RStudio Education Certified Trainer Demo lesson"
+---
+
+These are the materials for my Instructor Certification Checkout Content for the RStudio Certified Trainers Certification, including:
+
+- The [lesson](Lesson.html) itself
+- Some [learner personas](Personas.html) for who I'm imagining is attending
+- A [concept map](ConceptMap.html) of the mental model I'd like learners to walk away with
+- A [code of conduct](CoC.html), which is what I always start all of my training with, to ensure everyone feels safe and able to learn

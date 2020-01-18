@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tidyverse Core 1: filtering, selecting and arranging data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Demo</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Lesson.html">Lesson</a>
+</li>
+<li>
+  <a href="Personas.html">Personas</a>
+</li>
+<li>
+  <a href="ConceptMap.html">ConceptMap</a>
+</li>
+<li>
+  <a href="CoC.html">CodeOfConduct</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Tidyverse Core 1: filtering, selecting and arranging data</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level4">
+<h4>Learning Objectives</h4>
+<p>In this lesson, you will learn how to:</p>
+<ul>
+<li><code>filter()</code> out only the observations that satisfy a specific criteria from the dataset</li>
+<li><code>select()</code> the columns we’re interested in</li>
+<li><code>arrange()</code> the output in a specific order</li>
+<li>Combine multiple filtering and selecting steps using the “pipe” <code>%&gt;%</code> operator</li>
+</ul>
+</div>
+<div id="questions" class="section level4">
+<h4>Questions</h4>
+<ul>
+<li>How can I filter rows and/or columns from my data frame based on specific criteria?</li>
+<li>How can I chain together multiple filtering and selecting statements to return only the rows and columns I’m interested in?</li>
+<li>How can I arrange my results in descending or ascending order?</li>
+</ul>
+<hr />
+</div>
+<div id="filtering-data" class="section level2">
+<h2>Filtering data</h2>
+<p>Now that we’ve had a look at our dataset, let’s learn the first of the tidyverse’s core commands: <code>dplyr::filter()</code>. This commands filters our rows in the dataset that match a specific criteria. This is similar to Excel’s filter function, where you can check off which values you’d like to see the rows for, or which values are greater than or less than a specific cut point.</p>
+<p>Let’s use the <code>glimpse()</code> command, introduced in the last lesson, to remind ourselves about the variables in the gapminder dataset we’re working with:</p>
+<pre class="r fold-show"><code>library(tidyverse)
+library(gapminder)
+glimpse(gapminder)</code></pre>
+<pre><code>## Observations: 1,704
+## Variables: 6
+## $ country   &lt;fct&gt; Afghanistan, Afghanistan, Afghanistan, Afghanistan, Afghani…
+## $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia,…
+## $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997,…
+## $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.…
+## $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 1…
+## $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134,…</code></pre>
+<p>Next, let’s use the <code>table()</code> command to see how many records for each year we have:</p>
+<pre class="r fold-show"><code>table(gapminder$year)</code></pre>
+<pre><code>## 
+## 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 2002 2007 
+##  142  142  142  142  142  142  142  142  142  142  142  142</code></pre>
+<p>Let’s filter out the records from 1952 using the <code>filter()</code> command:</p>
+<pre class="r fold-show"><code>filter(gapminder, year == 1952)</code></pre>
+<pre><code>## # A tibble: 142 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Albania     Europe     1952    55.2  1282697     1601.
+##  3 Algeria     Africa     1952    43.1  9279525     2449.
+##  4 Angola      Africa     1952    30.0  4232095     3521.
+##  5 Argentina   Americas   1952    62.5 17876956     5911.
+##  6 Australia   Oceania    1952    69.1  8691212    10040.
+##  7 Austria     Europe     1952    66.8  6927772     6137.
+##  8 Bahrain     Asia       1952    50.9   120447     9867.
+##  9 Bangladesh  Asia       1952    37.5 46886859      684.
+## 10 Belgium     Europe     1952    68    8730405     8343.
+## # … with 132 more rows</code></pre>
+<p>If we are interested in retrieving records from the 1950s:</p>
+<pre class="r fold-show"><code>filter(gapminder, year &lt; 1960)</code></pre>
+<pre><code>## # A tibble: 284 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Albania     Europe     1952    55.2  1282697     1601.
+##  4 Albania     Europe     1957    59.3  1476505     1942.
+##  5 Algeria     Africa     1952    43.1  9279525     2449.
+##  6 Algeria     Africa     1957    45.7 10270856     3014.
+##  7 Angola      Africa     1952    30.0  4232095     3521.
+##  8 Angola      Africa     1957    32.0  4561361     3828.
+##  9 Argentina   Americas   1952    62.5 17876956     5911.
+## 10 Argentina   Americas   1957    64.4 19610538     6857.
+## # … with 274 more rows</code></pre>
+<p>Notice that 284 rows are returned instead of 142, as in the previous example.</p>
+<p>We can also combine <code>filter()</code> statements.</p>
+<p>For example, to filter out records from Oceania from the 1950s we can do:</p>
+<pre class="r fold-show"><code>filter(gapminder, year &lt; 1960 &amp; continent == &quot;Oceania&quot;)</code></pre>
+<pre><code>## # A tibble: 4 x 6
+##   country     continent  year lifeExp     pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
+## 1 Australia   Oceania    1952    69.1 8691212    10040.
+## 2 Australia   Oceania    1957    70.3 9712569    10950.
+## 3 New Zealand Oceania    1952    69.4 1994794    10557.
+## 4 New Zealand Oceania    1957    70.3 2229407    12247.</code></pre>
+<p>This returns only four records, one each for Australia and NZ in 1952 and 1957.</p>
+<p>The <code>|</code> operator can be used to specify “or”, for example to filter out records from the 1950s from Australia and New Zealand explicitly:</p>
+<pre class="r fold-show"><code>filter(gapminder, year &lt; 1960 &amp; (country == &quot;Australia&quot; | country == &quot;New Zealand&quot;))</code></pre>
+<pre><code>## # A tibble: 4 x 6
+##   country     continent  year lifeExp     pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
+## 1 Australia   Oceania    1952    69.1 8691212    10040.
+## 2 Australia   Oceania    1957    70.3 9712569    10950.
+## 3 New Zealand Oceania    1952    69.4 1994794    10557.
+## 4 New Zealand Oceania    1957    70.3 2229407    12247.</code></pre>
+<p>If there are more than two items you would like to consider, you can use a character vector and the <code>%in%</code> command to filter instead:</p>
+<pre class="r fold-show"><code>mycharactervector &lt;- c(&quot;Australia&quot;, &quot;New Zealand&quot;, &quot;Argentina&quot;)
+
+filter(gapminder, year &lt; 1960 &amp; country %in% mycharactervector)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Argentina   Americas   1952    62.5 17876956     5911.
+## 2 Argentina   Americas   1957    64.4 19610538     6857.
+## 3 Australia   Oceania    1952    69.1  8691212    10040.
+## 4 Australia   Oceania    1957    70.3  9712569    10950.
+## 5 New Zealand Oceania    1952    69.4  1994794    10557.
+## 6 New Zealand Oceania    1957    70.3  2229407    12247.</code></pre>
+<p>We will use the <code>%in%</code> command and character vectors more in later sessions.</p>
+<div id="challenge-1" class="section level3">
+<h3>Challenge 1</h3>
+<p>Use the <code>filter()</code> command to extract records from the Americas from the 1970s.</p>
+<pre class="r"><code># We can combine more than two statements in our filtering criteria:
+filter(gapminder, year &gt;= 1970 &amp; year &lt; 1980 &amp; continent == &quot;Americas&quot;)
+#
+# We can also use dplyr::between() 
+filter(gapminder, between(year, 1970,1979) &amp; continent == &quot;Americas&quot;)
+#
+# Watch out, as between included both the left and right hand side in the filtering criteria,
+# So records from both 1970 and 1979 are returned with the above statement!</code></pre>
+</div>
+<div id="challenge-2" class="section level3">
+<h3>Challenge 2</h3>
+<p>Which of these (more than one is correct) would return records from Argentina and Australia from the 1980s? Which one of the correct solutions do you think is the most readable?</p>
+<ul>
+<li>A: <code>filter(gapminder, (year &lt; 1989 &amp; year &gt; 1980) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))</code></li>
+<li>B: <code>filter(gapminder, (year &lt; 1989 &amp; country == &quot;Argentina&quot;) &amp; (year &gt; 1980 | country == &quot;Australia&quot;))</code></li>
+<li>C: <code>filter(gapminder, (year &lt;= 1989 &amp; year &gt;= 1980) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))</code></li>
+<li>D: <code>filter(gapminder, year &lt;= 1989 &amp; year &gt;= 1980 &amp; country == &quot;Argentina&quot; | country == &quot;Australia&quot;)</code></li>
+<li>E: <code>filter(gapminder, (year &lt; 1990 &amp; year &gt; 1979) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))</code></li>
+<li>F: <code>filter(gapminder, (year &lt;= 1989 &amp; year &gt;= 1980 &amp; country == &quot;Argentina&quot; ) | (year &lt;= 1989 &amp; year &gt;= 1980 &amp;  country == &quot;Australia&quot;))</code></li>
+<li>G: <code>filter(gapminder, (year == 1982 | year == 1987) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))</code></li>
+<li>H: <code>filter(gapminder, year &lt;= 1989 | year &gt;= 1980 | country == &quot;Argentina&quot; | country == &quot;Australia&quot;)</code></li>
+</ul>
+<pre class="r"><code># The following three (C, E, F) are *the* correct solutions, with the first one probably being the most readable, as 
+# it makes explicit the fact that we&#39;re pulling out records from the 1980s:
+filter(gapminder, (year &lt;= 1989 &amp; year &gt;= 1980) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))
+filter(gapminder, (year &lt; 1990 &amp; year &gt; 1979) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))
+filter(gapminder, (year &lt;= 1989 &amp; year &gt;= 1980 &amp; country == &quot;Argentina&quot; ) | (year &lt;= 1989 &amp; year &gt;= 1980 &amp;  country == &quot;Australia&quot;))
+
+
+# The following two (A, G) also producte the correct result (so are correct in this instance), but would not 
+# generalise to other dataset, or to our dataset were we to include more data, say from 1989
+filter(gapminder, (year &lt; 1989 &amp; year &gt; 1980) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))
+filter(gapminder, (year == 1982 | year == 1987) &amp; (country == &quot;Argentina&quot; | country == &quot;Australia&quot;))
+
+# Finally, the following approaches (B, D, H) do not generate the desired results at all:
+# this returns all records from Argentina between 1981 and 1988.
+filter(gapminder, (year &lt; 1989 &amp; country == &quot;Argentina&quot;) &amp; (year &gt; 1980 | country == &quot;Australia&quot;))
+# this returns all the records from 1980 to 1989 in Argentina and all of the records (for all time) from Australia
+filter(gapminder, year &lt;= 1989 &amp; year &gt;= 1980 &amp; country == &quot;Argentina&quot; | country == &quot;Australia&quot;)
+# this actually does nothing as it returns all records which are before 1989 OR after 1980, so all records
+# in the dataset
+# the country filtering does nothing at all
+filter(gapminder, year &lt;= 1989 | year &gt;= 1980 | country == &quot;Argentina&quot; | country == &quot;Australia&quot;)</code></pre>
+<hr />
+</div>
+</div>
+<div id="using-pipes-to-combine-multiple-dplyr-operations" class="section level2">
+<h2>Using pipes to combine multiple dplyr operations</h2>
+<p>While the filtering commands we just implemented were not very long and relatively straightforward to read, often when we work with real-world datasets we can have quite complex filtering strategies. For example, if we wanted to filter records from the 1970s from countries with a population greater than 10 million in the Americas with a life expectancy greater than 65 we could write:</p>
+<pre class="r fold-show"><code>filter(gapminder, continent == &quot;Americas&quot; &amp; year &lt; 1980 &amp; year &gt;= 1970 &amp; lifeExp &gt; 65 &amp; pop &gt; 10000000) </code></pre>
+<pre><code>## # A tibble: 10 x 6
+##    country       continent  year lifeExp       pop gdpPercap
+##    &lt;fct&gt;         &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+##  1 Argentina     Americas   1972    67.1  24779799     9443.
+##  2 Argentina     Americas   1977    68.5  26983828    10079.
+##  3 Canada        Americas   1972    72.9  22284500    18971.
+##  4 Canada        Americas   1977    74.2  23796400    22091.
+##  5 Chile         Americas   1977    67.1  10599793     4757.
+##  6 Mexico        Americas   1977    65.0  63759976     7675.
+##  7 United States Americas   1972    71.3 209896000    21806.
+##  8 United States Americas   1977    73.4 220239000    24073.
+##  9 Venezuela     Americas   1972    65.7  11515649    10505.
+## 10 Venezuela     Americas   1977    67.5  13503563    13144.</code></pre>
+<p>However, this becomes quite cumbersome to read. Instead, we can use the so-called pipe operator, <code>%&gt;%</code>, to chain together commands. The pipe operator is named this way because it works something like a water pipe - when we put a filter on our water pipes, some of the stuff gets caught, but most of the water flows through. Similarly, in programming, the output of the previous command is piped in straight though as input to the next command. So, to rewrite the convoluted statement above, we could do the following:</p>
+<pre class="r fold-show"><code># take our entire gapminder dataset &amp; feed it as input into the first filter command
+gapminder %&gt;%
+  # filter out all countries that are not in the Americas
+  filter(continent == &quot;Americas&quot;) %&gt;%
+  # filter out all records that are not from the 1970s
+  filter(year &gt;= 1970 &amp; year &lt; 1980) %&gt;%
+  # filter based on life expectancy and population
+  filter(lifeExp &gt; 65 &amp; pop &gt; 10^7)</code></pre>
+<pre><code>## # A tibble: 10 x 6
+##    country       continent  year lifeExp       pop gdpPercap
+##    &lt;fct&gt;         &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+##  1 Argentina     Americas   1972    67.1  24779799     9443.
+##  2 Argentina     Americas   1977    68.5  26983828    10079.
+##  3 Canada        Americas   1972    72.9  22284500    18971.
+##  4 Canada        Americas   1977    74.2  23796400    22091.
+##  5 Chile         Americas   1977    67.1  10599793     4757.
+##  6 Mexico        Americas   1977    65.0  63759976     7675.
+##  7 United States Americas   1972    71.3 209896000    21806.
+##  8 United States Americas   1977    73.4 220239000    24073.
+##  9 Venezuela     Americas   1972    65.7  11515649    10505.
+## 10 Venezuela     Americas   1977    67.5  13503563    13144.</code></pre>
+<p>While I have included comments in the code above, they are not essential for deciphering what the code does at each step:</p>
+<pre><code>gapminder %&gt;%
+  filter(continent == &quot;Americas&quot;) %&gt;%
+  filter(year &gt;= 1970 &amp; year &lt; 1980) %&gt;%
+  filter(lifeExp &gt; 65 &amp; pop &gt; 10^7)</code></pre>
+<p>Another advantage of using pipes is that RStudio will help us with tab completion and suggest the names of columns in our data when we use them. This is why we will continue to use the pipe for the rest of this training course.</p>
+<hr />
+</div>
+<div id="arranging-our-records-using-the-arrange-command" class="section level2">
+<h2>Arranging our records using the arrange command</h2>
+<p>We can arrange our data by using the <code>arrange()</code> command. For example, to arrange the gapminder dataset by population:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  arrange(pop)</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country               continent  year lifeExp   pop gdpPercap
+##    &lt;fct&gt;                 &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;
+##  1 Sao Tome and Principe Africa     1952    46.5 60011      880.
+##  2 Sao Tome and Principe Africa     1957    48.9 61325      861.
+##  3 Djibouti              Africa     1952    34.8 63149     2670.
+##  4 Sao Tome and Principe Africa     1962    51.9 65345     1072.
+##  5 Sao Tome and Principe Africa     1967    54.4 70787     1385.
+##  6 Djibouti              Africa     1957    37.3 71851     2865.
+##  7 Sao Tome and Principe Africa     1972    56.5 76595     1533.
+##  8 Sao Tome and Principe Africa     1977    58.6 86796     1738.
+##  9 Djibouti              Africa     1962    39.7 89898     3021.
+## 10 Sao Tome and Principe Africa     1982    60.4 98593     1890.
+## # … with 1,694 more rows</code></pre>
+<p>By default, <code>arrange()</code> arranges things from lowest to highest, but we can use <code>desc()</code> to arrange in descending order:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  arrange(desc(pop))</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country continent  year lifeExp        pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1 China   Asia       2007    73.0 1318683096     4959.
+##  2 China   Asia       2002    72.0 1280400000     3119.
+##  3 China   Asia       1997    70.4 1230075000     2289.
+##  4 China   Asia       1992    68.7 1164970000     1656.
+##  5 India   Asia       2007    64.7 1110396331     2452.
+##  6 China   Asia       1987    67.3 1084035000     1379.
+##  7 India   Asia       2002    62.9 1034172547     1747.
+##  8 China   Asia       1982    65.5 1000281000      962.
+##  9 India   Asia       1997    61.8  959000000     1459.
+## 10 China   Asia       1977    64.0  943455000      741.
+## # … with 1,694 more rows</code></pre>
+<p>Thanks to the pipe, we can combine <code>arrange()</code> and <code>filter()</code> statements:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  filter(continent == &quot;Oceania&quot;) %&gt;%
+  filter(year &lt; 1960) %&gt;%
+  arrange(desc(lifeExp))</code></pre>
+<pre><code>## # A tibble: 4 x 6
+##   country     continent  year lifeExp     pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
+## 1 Australia   Oceania    1957    70.3 9712569    10950.
+## 2 New Zealand Oceania    1957    70.3 2229407    12247.
+## 3 New Zealand Oceania    1952    69.4 1994794    10557.
+## 4 Australia   Oceania    1952    69.1 8691212    10040.</code></pre>
+<p>We can see that the life expectancy in New Zealand was higher than in Australia in 1952, but that in 1957 the opposite became true!</p>
+<div id="challenge-3" class="section level3">
+<h3>Challenge 3</h3>
+<p>Which countries had the highest and second-highest life expectancy in Europe in 1952? Were they still the top two countries in 2007?</p>
+<pre class="r"><code># Norway and Iceland had the highest life expectancy in 1952, with Norway having .18 years (approx 2 months) higher 
+# Life expectancy than Iceland
+gapminder %&gt;%
+  filter(continent == &quot;Europe&quot;) %&gt;%
+  filter(year == 1952) %&gt;%
+  arrange(desc(lifeExp))
+
+# In 2007, Iceland had the highest life expectancy, whereas Norway was relegated to 7th place
+# The difference between first and 7th in 2007 was 1.561 years!
+gapminder %&gt;%
+  filter(continent == &quot;Europe&quot;) %&gt;%
+  filter(year == 2007) %&gt;%
+  arrange(desc(lifeExp))</code></pre>
+<hr />
+</div>
+</div>
+<div id="selecting-the-columns-we-want-using-the-select-command" class="section level2">
+<h2>Selecting the columns we want using the <code>select()</code> command</h2>
+<p>So far, we’ve returned all of the columns from the data frames we’ve been working with. However, we may be interested in working with only a selection of them, so we can use the <code>select()</code> command to pick and choose which columns we are interested in.</p>
+<p>For example, to <code>select()</code> only the country, year and lifeExp columns from our dataset we can do the following:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  select(country, year, lifeExp)</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    country      year lifeExp
+##    &lt;fct&gt;       &lt;int&gt;   &lt;dbl&gt;
+##  1 Afghanistan  1952    28.8
+##  2 Afghanistan  1957    30.3
+##  3 Afghanistan  1962    32.0
+##  4 Afghanistan  1967    34.0
+##  5 Afghanistan  1972    36.1
+##  6 Afghanistan  1977    38.4
+##  7 Afghanistan  1982    39.9
+##  8 Afghanistan  1987    40.8
+##  9 Afghanistan  1992    41.7
+## 10 Afghanistan  1997    41.8
+## # … with 1,694 more rows</code></pre>
+<p>We can combine selecting columns with filtering rows, for example by building on our case study above:</p>
+<pre class="r fold-show"><code>gapminder %&gt;%
+  filter(year &lt; 1960 &amp; continent == &quot;Oceania&quot;) %&gt;%
+  select(country, year, gdpPercap) %&gt;%
+  arrange(gdpPercap)</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   country      year gdpPercap
+##   &lt;fct&gt;       &lt;int&gt;     &lt;dbl&gt;
+## 1 Australia    1952    10040.
+## 2 New Zealand  1952    10557.
+## 3 Australia    1957    10950.
+## 4 New Zealand  1957    12247.</code></pre>
+<p>We can see that in the 1950s, both Australia and New Zealand’s GDP grew between 1952 and 1957, and Australia’s GDP was less than that of New Zealand.</p>
+<div id="challenge-4" class="section level3">
+<h3>Challenge 4</h3>
+<ul>
+<li>Which countries with a population over 1 million people had the highest GDP in Asia in 1952?</li>
+<li>How many of them were in the top 5 in 2007?</li>
+</ul>
+<p>Note: you can use two separate dplyr expressions to answer both of these questions. Hint: explore countries’ GDP without filtering by population in 1952 first to explain what is occuring in the data</p>
+<pre class="r"><code># First, identify the top countries by GDP in Asia in 1952 without filtering by GDP
+gapminder %&gt;%
+  filter(year == 1952 &amp; continent == &quot;Asia&quot;) %&gt;%
+  select(country, year, pop, gdpPercap) %&gt;%
+  arrange(desc(gdpPercap)) 
+# We can see that it is Kuwait, Bahrain, Saudi Arabia, Lebanon, Iraq, Israel and Japan
+
+# Now filter by population
+gapminder %&gt;%
+  filter(year == 1952 &amp; continent == &quot;Asia&quot; &amp; pop &gt; 10^6) %&gt;%
+  select(country, year, pop, gdpPercap) %&gt;%
+  arrange(desc(gdpPercap))
+# Kuwait and Bahrain are filtered out, as they have very low population
+
+# Next, look in 2007
+gapminder %&gt;%
+  filter(year == 2007 &amp; continent == &quot;Asia&quot;) %&gt;%
+  select(country, year, pop, gdpPercap) %&gt;%
+  arrange(desc(gdpPercap))
+
+# We can see that in 2007, the order is Kuwait, Singapore, Hong Kong, Japan, Bahrain
+# When we then filter by population, Bahrain (but not Kuwait) is once again filtered out
+gapminder %&gt;%
+  filter(year == 2007 &amp; continent == &quot;Asia&quot; &amp; pop &gt; 10^6) %&gt;%
+  select(country, year, pop, gdpPercap) %&gt;%
+  arrange(desc(gdpPercap))</code></pre>
+<hr />
+</div>
+<div id="key-points" class="section level3">
+<h3>Key Points</h3>
+<ul>
+<li>The dplyr library of the tidyverse family provides us with the key <code>filter()</code>, <code>select()</code>, and <code>arrange()</code> commands</li>
+<li><code>filter()</code> filters our rows from our dataset to return the observations that satisfy a specific criteria</li>
+<li><code>select()</code> selects which columns are returned to us from the dataset</li>
+<li><code>arrange()</code> arranges the output in ascending order of a specific variable</li>
+<li>We can use <code>desc()</code> to change the way in which this ordering is done</li>
+<li>The “pipe” <code>%&gt;%</code> operator allows us to combine multiple dplyr statements into a long chain, which improves readability and gives us access to RStudio code completion</li>
+</ul>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
