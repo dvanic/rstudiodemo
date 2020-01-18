@@ -2,8 +2,14 @@
 title: 'Concept map'
 ---
 
+For the filtering section, which is what I would expect to get through in 15 minutes, a canonical concept map looks something like this:
 
-Below is a map of the overall content of this lesson. 
+
+![](canonicalconceptmapfiltering.jpg)
+
+***
+
+The sketchnote/bigger picture I hope learners walk away from in this lesson is below. 
 
 I have fleshed out the 
 
@@ -11,17 +17,12 @@ I have fleshed out the
 - `%>%` - purple
 - `arrange()` - cyan
 
-Portions of the lesson, although I expect that in 15 minutes we would work through the filtering (green) component.  I haven't fleshed out the `select()` section at this point, as whether to introduce things like `starts_with()` here or in another section needs to be taken in the context of the entire training plan. 
+Portions of the lesson.  I haven't fleshed out the `select()` section at this point, as whether to introduce things like `starts_with()` here or in another section needs to be taken in the context of the entire training plan. 
 
 
 
 ![](conceptmap.jpg)
 
-***
-For the filtering section, a canonical concept map looks something like this:
-
-
-![](canonicalconceptmapfiltering.jpg)
 
 ***
 
