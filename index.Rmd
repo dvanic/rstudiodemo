@@ -4,7 +4,7 @@ title: "RStudio Education Certified Trainer Demo lesson"
 
 These are the materials for my Instructor Certification Checkout Content for the RStudio Certified Trainers Certification, including:
 
-- The [lesson](Lesson.html) itself
+- The [lesson](Lesson.html) itself. Note that I expect to be able to work through **ONLY** the filtering section during the 15 minutes of the demo lesson, but I couldn't stop myself from practicing backwards design, so sketched out additional (not complete) content for other tasks I'd teach in the same session
 - Some [learner personas](Personas.html) for who I'm imagining is attending
 - A [concept map](ConceptMap.html) of the mental model I'd like learners to walk away with
 - A [code of conduct](CoC.html), which is what I always start all of my training with, to ensure everyone feels safe and able to learn
